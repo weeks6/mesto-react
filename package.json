@@ -2,6 +2,7 @@
   "name": "mesto-react",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://weeks6.github.io/mesto-react/",
   "author": {"email": "bridcarp1@gmail.com", "name": "Igor Ilin"},
   "dependencies": {
     "@testing-library/jest-dom": "^5.12.0",
