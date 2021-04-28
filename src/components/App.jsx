@@ -1,16 +1,18 @@
 import { useState } from 'react'
 
-import Header from './components/Header'
-import Main from './components/Main'
-import Footer from './components/Footer'
-import PopupWithForm from './components/PopupWithForm'
-import ImagePopup from './components/ImagePopup'
+import Header from './Header'
+import Main from './Main'
+import Footer from './Footer'
+import PopupWithForm from './PopupWithForm'
+import ImagePopup from './ImagePopup'
 
 function App() {
-
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false)
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false)
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false)
+  const [isConfirmDeletePopupOpen, setIsConfirmDeletePopupOpen] = useState(
+    false
+  )
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false)
   const [selectedCard, setSelectedCard] = useState({})
 
@@ -24,6 +26,10 @@ function App() {
 
   function handleAddPlaceClick() {
     setIsAddPlacePopupOpen(true)
+  }
+
+  function handleDeleteClick() {
+    setIsConfirmDeletePopupOpen(true)
   }
 
   function handleCardClick(card) {
@@ -42,16 +48,22 @@ function App() {
 
   return (
     <div className="page">
-
       <Header />
       <Main
         onEditProfile={handleEditProfileClick}
         onAddPlace={handleAddPlaceClick}
         onEditAvatar={handleEditAvatarClick}
-        onCardClick={handleCardClick} />
+        onCardClick={handleCardClick}
+        onDeleteClick={handleDeleteClick}
+      />
       <Footer />
 
-      <PopupWithForm isOpened={isEditProfilePopupOpen} onClose={closeAllPopups} name='edit' title='Редактировать профиль'>
+      <PopupWithForm
+        isOpened={isEditProfilePopupOpen}
+        onClose={closeAllPopups}
+        name="edit"
+        title="Редактировать профиль"
+      >
         <div className="form__input-field">
           <input
             type="text"
@@ -62,7 +74,7 @@ function App() {
             maxLength="40"
             required
           />
-          <span className="form__input-error" id="fieldName-error"></span>
+          <span className="form__input-error" />
         </div>
 
         <div className="form__input-field">
@@ -75,12 +87,16 @@ function App() {
             maxLength="200"
             required
           />
-          <span className="form__input-error" id='fieldAbout-error'></span>
-
+          <span className="form__input-error" />
         </div>
       </PopupWithForm>
 
-      <PopupWithForm isOpened={isEditAvatarPopupOpen} onClose={closeAllPopups} name='avatar' title='Обновить аватар'>
+      <PopupWithForm
+        isOpened={isEditAvatarPopupOpen}
+        onClose={closeAllPopups}
+        name="avatar"
+        title="Обновить аватар"
+      >
         <div className="form__input-field">
           <input
             type="url"
@@ -89,11 +105,16 @@ function App() {
             placeholder="Ссылка на картинку"
             required
           />
-          <span className="form__input-error" id="fieldAvatar-error"></span>
+          <span className="form__input-error" />
         </div>
       </PopupWithForm>
 
-      <PopupWithForm isOpened={isAddPlacePopupOpen} onClose={closeAllPopups} name='add' title='Новое место'>
+      <PopupWithForm
+        isOpened={isAddPlacePopupOpen}
+        onClose={closeAllPopups}
+        name="add"
+        title="Новое место"
+      >
         <div className="form__input-field">
           <input
             type="text"
@@ -104,7 +125,7 @@ function App() {
             maxLength="30"
             required
           />
-          <span className="form__input-error" id="fieldTitle-error"></span>
+          <span className="form__input-error" />
         </div>
 
         <div className="form__input-field">
@@ -115,34 +136,32 @@ function App() {
             placeholder="Ссылка на картинку"
             required
           />
-          <span className="form__input-error" id="fieldLink-error"></span>
+          <span className="form__input-error" />
         </div>
       </PopupWithForm>
 
-      <ImagePopup isOpened={isImagePopupOpen} onClose={closeAllPopups} selectedCard={selectedCard} />
+      <PopupWithForm
+        buttonText="Да"
+        isOpened={isConfirmDeletePopupOpen}
+        onClose={closeAllPopups}
+        title="Вы уверены?"
+        name="confirm-delete"
+      >
+        <button
+          className="button button_type_save"
+          type="submit"
+        >
+          Да
+        </button>
+      </PopupWithForm>
 
-      {/* <!-- Попап подтверждения удаления карточки --> */}
-      <div className="popup confirm-delete-popup">
-        <div className="popup__container container">
-          <button
-            type="button"
-            aria-label="Закрыть"
-            className="button button_type_close"
-          ></button>
-          <form className="form" name="confirm-delete-form">
-
-            <div className="form__inner">
-              <h2 className="popup__title">Вы уверены?</h2>
-              <button className="button button_type_save" >
-                Да
-            </button>
-            </div>
-          </form>
-        </div>
-      </div>
-
+      <ImagePopup
+        isOpened={isImagePopupOpen}
+        onClose={closeAllPopups}
+        selectedCard={selectedCard}
+      />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
