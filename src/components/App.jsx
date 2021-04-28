@@ -13,8 +13,7 @@ function App() {
   const [isConfirmDeletePopupOpen, setIsConfirmDeletePopupOpen] = useState(
     false
   )
-  const [isImagePopupOpen, setIsImagePopupOpen] = useState(false)
-  const [selectedCard, setSelectedCard] = useState({})
+  const [selectedCard, setSelectedCard] = useState(null)
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true)
@@ -34,16 +33,14 @@ function App() {
 
   function handleCardClick(card) {
     setSelectedCard(card)
-    setIsImagePopupOpen(true)
   }
 
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false)
     setIsEditProfilePopupOpen(false)
     setIsAddPlacePopupOpen(false)
-
-    setSelectedCard({})
-    setIsImagePopupOpen(false)
+    setIsConfirmDeletePopupOpen(false)
+    setSelectedCard(null)
   }
 
   return (
@@ -63,6 +60,7 @@ function App() {
         onClose={closeAllPopups}
         name="edit"
         title="Редактировать профиль"
+        buttonText="Сохранить"
       >
         <div className="form__input-field">
           <input
@@ -96,6 +94,7 @@ function App() {
         onClose={closeAllPopups}
         name="avatar"
         title="Обновить аватар"
+        buttonText="Сохранить"
       >
         <div className="form__input-field">
           <input
@@ -114,6 +113,7 @@ function App() {
         onClose={closeAllPopups}
         name="add"
         title="Новое место"
+        buttonText="Создать"
       >
         <div className="form__input-field">
           <input
@@ -141,24 +141,16 @@ function App() {
       </PopupWithForm>
 
       <PopupWithForm
-        buttonText="Да"
         isOpened={isConfirmDeletePopupOpen}
         onClose={closeAllPopups}
         title="Вы уверены?"
         name="confirm-delete"
-      >
-        <button
-          className="button button_type_save"
-          type="submit"
-        >
-          Да
-        </button>
-      </PopupWithForm>
+        buttonText="Да"
+      />
 
       <ImagePopup
-        isOpened={isImagePopupOpen}
-        onClose={closeAllPopups}
         selectedCard={selectedCard}
+        onClose={closeAllPopups}
       />
     </div>
   )

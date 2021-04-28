@@ -1,4 +1,4 @@
-export default function Card({ card, onCardClick }) {
+export default function Card({ card, onCardClick, onDeleteClick }) {
   const { name, link, likes } = card
 
   return (
@@ -7,6 +7,7 @@ export default function Card({ card, onCardClick }) {
         className="button button_type_delete"
         type="button"
         aria-label="Удалить карточку"
+        onClick={onDeleteClick}
       />
       <img
         src={link}

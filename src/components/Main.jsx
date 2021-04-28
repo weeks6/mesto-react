@@ -8,6 +8,7 @@ export default function Main({
   onAddPlace,
   onEditAvatar,
   onCardClick,
+  onDeleteClick
 }) {
   const [userName, setUserName] = useState('')
   const [userDescription, setUserDescription] = useState('')
@@ -16,16 +17,19 @@ export default function Main({
   const [cards, setCards] = useState([])
 
   useEffect(() => {
-    api.getUserInfo().then((user) => {
-      setUserName(user.name)
-      setUserDescription(user.about)
-      setUserAvatar(user.avatar)
-    })
+    api.getUserInfo()
+      .then((user) => {
+        setUserName(user.name)
+        setUserDescription(user.about)
+        setUserAvatar(user.avatar)
+      })
+      .catch(err => console.log(err))
+
+    api.fetchCards()
+      .then((fetchedCards) => setCards(fetchedCards))
+      .catch(err => console.log(err))
   }, [])
 
-  useEffect(() => {
-    api.fetchCards().then((fetchedCards) => setCards(fetchedCards))
-  }, [])
 
   return (
     <main className="main container">
@@ -34,7 +38,7 @@ export default function Main({
           <img
             src={userAvatar}
             className="avatar__image"
-            alt="Картинка профиля"
+            alt={userName}
           />
           <button
             className="button avatar__edit"
@@ -48,7 +52,7 @@ export default function Main({
             <h1 className="profile-info__name">{userName}</h1>
             <button
               type="button"
-              aria-label="Редактировать"
+              aria-label="Редактировать профиль"
               className="button button_type_edit"
               onClick={onEditProfile}
             />
@@ -69,6 +73,7 @@ export default function Main({
               card={card}
               key={card._id}
               onCardClick={onCardClick}
+              onDeleteClick={onDeleteClick}
             />
           ))}
         </ul>

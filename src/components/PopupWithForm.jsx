@@ -1,6 +1,7 @@
 export default function PopupWithForm({
   title,
   name,
+  buttonText,
   isOpened,
   onClose,
   children,
@@ -32,7 +33,7 @@ export default function PopupWithForm({
               className="button button_type_save"
               type="submit"
             >
-              Сохранить
+              {buttonText}
             </button>
           </div>
         </form>
