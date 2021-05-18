@@ -4,8 +4,10 @@ export default function PopupWithForm({
   buttonText,
   isOpened,
   onClose,
+  onSubmit,
   children,
 }) {
+
   return (
     <div
       className={
@@ -13,6 +15,10 @@ export default function PopupWithForm({
           ? `popup popup_type_${name} popup_opened`
           : `popup popup_type_${name}`
       }
+      onKeyPress={(evt) => {
+        console.log(evt);
+      }}
+      role='dialog'
     >
       <div className="popup__container container">
         <button
@@ -24,6 +30,7 @@ export default function PopupWithForm({
         <form
           className="form"
           name={`${name}-form`}
+          onSubmit={onSubmit}
           noValidate
         >
           <div className="form__inner">
@@ -38,6 +45,14 @@ export default function PopupWithForm({
           </div>
         </form>
       </div>
+      <button
+        type='button'
+        title='Закрыть'
+        aria-label='Закрыть'
+        className="popup__overlay"
+        onClick={onClose}
+
+      />
     </div>
   )
 }

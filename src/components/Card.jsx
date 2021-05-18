@@ -1,14 +1,32 @@
-export default function Card({ card, onCardClick, onDeleteClick }) {
-  const { name, link, likes } = card
+import { useContext } from 'react'
+
+import CurrentUserContext from '../contexts/currentUserContext'
+
+export default function Card({ card, onCardClick, onDeleteClick, onCardLike }) {
+  const { name, link, likes, owner } = card
+
+  const user = useContext(CurrentUserContext)
+
+  const isOwn = owner?._id === user?._id
+  const isLiked = likes?.some(i => i._id === user?._id)
+
+  function handleLikeClick() {
+    onCardLike(card)
+  }
+
+  function handleDeleteClick() {
+    onDeleteClick(card)
+  }
 
   return (
     <li className="card">
-      <button
-        className="button button_type_delete"
-        type="button"
-        aria-label="Удалить карточку"
-        onClick={onDeleteClick}
-      />
+      {isOwn &&
+        <button
+          className="button button_type_delete"
+          type="button"
+          aria-label="Удалить карточку"
+          onClick={handleDeleteClick}
+        />}
       <img
         src={link}
         alt={name}
@@ -28,7 +46,8 @@ export default function Card({ card, onCardClick, onDeleteClick }) {
             type="button"
             // @TODO: add different labels for different states of like
             aria-label="Поставить лайк карточке"
-            className="button button_type_like"
+            className={`button button_type_like ${isLiked && 'button_type_like_active'}`}
+            onClick={handleLikeClick}
           />
           <span className="card__like-counter">{likes?.length}</span>
         </div>

@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import api from '../utils/Api'
+import { useContext } from 'react'
+import CurrentUserContext from "../contexts/currentUserContext"
 
 import Card from './Card'
 
@@ -8,37 +8,20 @@ export default function Main({
   onAddPlace,
   onEditAvatar,
   onCardClick,
-  onDeleteClick
+  onCardLike,
+  onCardDelete,
+  cards
 }) {
-  const [userName, setUserName] = useState('')
-  const [userDescription, setUserDescription] = useState('')
-  const [userAvatar, setUserAvatar] = useState('')
-
-  const [cards, setCards] = useState([])
-
-  useEffect(() => {
-    api.getUserInfo()
-      .then((user) => {
-        setUserName(user.name)
-        setUserDescription(user.about)
-        setUserAvatar(user.avatar)
-      })
-      .catch(err => console.log(err))
-
-    api.fetchCards()
-      .then((fetchedCards) => setCards(fetchedCards))
-      .catch(err => console.log(err))
-  }, [])
-
+  const user = useContext(CurrentUserContext)
 
   return (
     <main className="main container">
       <section className="profile">
         <div className="avatar">
           <img
-            src={userAvatar}
+            src={user?.avatar}
             className="avatar__image"
-            alt={userName}
+            alt={user?.name}
           />
           <button
             className="button avatar__edit"
@@ -49,7 +32,7 @@ export default function Main({
         </div>
         <div className="profile-info">
           <div className="profile-info__inner">
-            <h1 className="profile-info__name">{userName}</h1>
+            <h1 className="profile-info__name">{user?.name}</h1>
             <button
               type="button"
               aria-label="Редактировать профиль"
@@ -57,7 +40,7 @@ export default function Main({
               onClick={onEditProfile}
             />
           </div>
-          <p className="profile-info__about">{userDescription}</p>
+          <p className="profile-info__about">{user?.about}</p>
         </div>
         <button
           type="button"
@@ -73,7 +56,8 @@ export default function Main({
               card={card}
               key={card._id}
               onCardClick={onCardClick}
-              onDeleteClick={onDeleteClick}
+              onDeleteClick={onCardDelete}
+              onCardLike={onCardLike}
             />
           ))}
         </ul>
