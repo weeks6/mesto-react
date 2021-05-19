@@ -154,7 +154,10 @@ function App() {
           buttonText="Да"
         />
 
-        <ImagePopup selectedCard={selectedCard} onClose={closeAllPopups} />
+        <ImagePopup 
+          selectedCard={selectedCard}
+          onClose={closeAllPopups} 
+        />
       </div>
     </CurrentUserContext.Provider>
   )
