@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import api from '../utils/Api'
-import CurrentUserContext from '../contexts/currentUserContext'
+import api from '../utils/api'
+import CurrentUserContext from '../contexts/CurrentUserContext'
 
 import Header from './Header'
 import Main from './Main'
@@ -24,34 +24,38 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(null)
 
   useEffect(() => {
-    api.getUserInfo()
+    api
+      .getUserInfo()
       .then((user) => {
         setCurrentUser(user)
       })
-      .catch(err => console.log(err))
+      .catch((err) => console.log(err))
 
-    api.fetchCards()
+    api
+      .fetchCards()
       .then((fetchedCards) => setCards(fetchedCards))
-      .catch(err => console.log(err))
+      .catch((err) => console.log(err))
   }, [])
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i._id === currentUser._id)
+    const isLiked = card.likes.some((i) => i._id === currentUser._id)
 
-    api.changeCardLikeStatus(card._id, isLiked)
-      .then(newCard =>
-        setCards(state => state.map(c => c._id === card._id ? newCard : c))
+    api
+      .changeCardLikeStatus(card._id, isLiked)
+      .then((newCard) =>
+        setCards((state) =>
+          state.map((c) => (c._id === card._id ? newCard : c))
+        )
       )
-      .catch(err => console.log(err))
+      .catch((err) => console.log(err))
   }
 
   function handleCardDelete(card) {
-    api.deleteCard(card._id)
-      .then(() => setCards(state => state.filter(c => c._id !== card._id)))
-      .catch(err => console.log(err))
+    api
+      .deleteCard(card._id)
+      .then(() => setCards((state) => state.filter((c) => c._id !== card._id)))
+      .catch((err) => console.log(err))
   }
-
-
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true)
@@ -83,23 +87,28 @@ function App() {
 
   function handleAddPlaceSubmit({ title, link }) {
     // TODO: fix naming to be uniform
-    api.createCard({ name: title, link }).then(card => {
-      setCards([card, ...cards])
-      closeAllPopups()
-    }).catch(err => console.log(err))
+    api
+      .createCard({ name: title, link })
+      .then((card) => {
+        setCards([card, ...cards])
+        closeAllPopups()
+      })
+      .catch((err) => console.log(err))
   }
 
   function handleUpdateUser({ name, about }) {
-    api.updateUserInfo(name, about)
-      .then(user => setCurrentUser(user))
-      .catch(err => console.log(err))
+    api
+      .updateUserInfo(name, about)
+      .then((user) => setCurrentUser(user))
+      .catch((err) => console.log(err))
       .finally(() => closeAllPopups())
   }
 
   function handleAvatarUpdate({ avatar }) {
-    api.updateUserAvatar(avatar)
-      .then(user => setCurrentUser(user))
-      .catch(err => console.log(err))
+    api
+      .updateUserAvatar(avatar)
+      .then((user) => setCurrentUser(user))
+      .catch((err) => console.log(err))
       .finally(() => closeAllPopups())
   }
 
@@ -145,10 +154,7 @@ function App() {
           buttonText="Да"
         />
 
-        <ImagePopup
-          selectedCard={selectedCard}
-          onClose={closeAllPopups}
-        />
+        <ImagePopup selectedCard={selectedCard} onClose={closeAllPopups} />
       </div>
     </CurrentUserContext.Provider>
   )

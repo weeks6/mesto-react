@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 
-import CurrentUserContext from '../contexts/currentUserContext'
+import CurrentUserContext from '../contexts/CurrentUserContext'
 
 export default function Card({ card, onCardClick, onDeleteClick, onCardLike }) {
   const { name, link, likes, owner } = card
@@ -8,7 +8,7 @@ export default function Card({ card, onCardClick, onDeleteClick, onCardLike }) {
   const user = useContext(CurrentUserContext)
 
   const isOwn = owner?._id === user?._id
-  const isLiked = likes?.some(i => i._id === user?._id)
+  const isLiked = likes?.some((i) => i._id === user?._id)
 
   function handleLikeClick() {
     onCardLike(card)
@@ -20,13 +20,14 @@ export default function Card({ card, onCardClick, onDeleteClick, onCardLike }) {
 
   return (
     <li className="card">
-      {isOwn &&
+      {isOwn && (
         <button
           className="button button_type_delete"
           type="button"
           aria-label="Удалить карточку"
           onClick={handleDeleteClick}
-        />}
+        />
+      )}
       <img
         src={link}
         alt={name}
@@ -35,10 +36,7 @@ export default function Card({ card, onCardClick, onDeleteClick, onCardLike }) {
         onKeyDown={(evt) => evt.key === 'Enter' && onCardClick(card)}
       />
       <div className="card__info">
-        <h2
-          className="card__title"
-          title={name}
-        >
+        <h2 className="card__title" title={name}>
           {name}
         </h2>
         <div className="card__like-wrapper">
@@ -46,7 +44,9 @@ export default function Card({ card, onCardClick, onDeleteClick, onCardLike }) {
             type="button"
             // @TODO: add different labels for different states of like
             aria-label="Поставить лайк карточке"
-            className={`button button_type_like ${isLiked && 'button_type_like_active'}`}
+            className={`button button_type_like ${
+              isLiked && 'button_type_like_active'
+            }`}
             onClick={handleLikeClick}
           />
           <span className="card__like-counter">{likes?.length}</span>

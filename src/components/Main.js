@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import CurrentUserContext from "../contexts/currentUserContext"
+import CurrentUserContext from '../contexts/CurrentUserContext'
 
 import Card from './Card'
 
@@ -10,7 +10,7 @@ export default function Main({
   onCardClick,
   onCardLike,
   onCardDelete,
-  cards
+  cards,
 }) {
   const user = useContext(CurrentUserContext)
 
@@ -18,11 +18,7 @@ export default function Main({
     <main className="main container">
       <section className="profile">
         <div className="avatar">
-          <img
-            src={user?.avatar}
-            className="avatar__image"
-            alt={user?.name}
-          />
+          <img src={user?.avatar} className="avatar__image" alt={user?.name} />
           <button
             className="button avatar__edit"
             aria-label="Редактировать аватар"
