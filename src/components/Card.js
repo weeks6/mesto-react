@@ -36,7 +36,10 @@ export default function Card({ card, onCardClick, onDeleteClick, onCardLike }) {
         onKeyDown={(evt) => evt.key === 'Enter' && onCardClick(card)}
       />
       <div className="card__info">
-        <h2 className="card__title" title={name}>
+        <h2
+          className="card__title"
+          title={name}
+        >
           {name}
         </h2>
         <div className="card__like-wrapper">

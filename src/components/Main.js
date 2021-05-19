@@ -18,7 +18,11 @@ export default function Main({
     <main className="main container">
       <section className="profile">
         <div className="avatar">
-          <img src={user?.avatar} className="avatar__image" alt={user?.name} />
+          <img
+            src={user?.avatar}
+            className="avatar__image"
+            alt={user?.name}
+          />
           <button
             className="button avatar__edit"
             aria-label="Редактировать аватар"
